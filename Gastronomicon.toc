@@ -4,4 +4,6 @@
 ## Notes: STOP BURNING FOOD YOU FAT FUCK
 ## Author: Tekkub Stoutwrithe
 
+data\requisites.lua
+
 Gastronomicon.lua
