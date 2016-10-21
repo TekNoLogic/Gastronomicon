@@ -3,31 +3,15 @@ local myname, ns = ...
 
 
 local HookedButtons = {} -- [button] = true
-
-local IngredientList = { -- In the order they appear in Nomi's dialog options
-	[124117] = {201506,201555,201544,201516,201563,201550,201524,201543,201530,201535}, -- Lean Shank
-	[124121] = {201536,201547,201562,201507,201515,201527,201542,201556}, -- Wildfowl Egg
-	[124119] = {201562,201549,201542,201529,201516,201548,201505,201528,201554,201534,201543,201515,201563}, -- Big Gamy Ribs
-	[124118] = {201560,201554,201534,201505,201540}, -- Fatty Bearsteak
-	[124120] = {201534,201551,201536,201529,201531,201563,201505,201507,201554,201556,201543,201549,201516}, -- Leyblood
-	[124107] = {201511,201561,201541,201558,201538}, -- Cursed Queenfish
-	[124108] = {201525,201545,201562,201542,201515,201558,201538,201511}, -- Mossgill Perch
-	[124109] = {201534,201538,201516,201533,201505,201558,201554,201511,201543,201553,201563}, -- Highmountain Salmon
-	[124110] = {201532,201508,201542,201537,201516,201563,201557,201552,201546,201526,201543,201515,201562}, -- Stormray
-	[124111] = {201532,201506,201508,201555,201557,201516,201563,201550,201552,201537,201543,201530,201535}, -- Runescale Koi
-	[124112] = {201551,201538,201531,201563,201558,201507,201536,201556,201543,201511,201516}, -- Black Barracuda
-	[133680] = {201562,201684,201542,201516,201683,201685,201543,201515,201563}, -- Slabs of Bacon
-	[133607] = {201539,201557,201537,201559,201508}, -- Silver Mackerel
-}
-
 local LocalizedIngredientList = {} -- [itemID] = {itemName, itemLink}
 local TooltipInfo = {} -- [button] = {[i] = 'recipe name?'}
+local RecipeCache = {} -- [recipeID] = info
+
 
 local function GetRank(info)
 	return not info.nextRecipeID and 3 or info.previousRecipeID and 2 or 1
 end
 
-local RecipeCache = {} -- [recipeID] = info
 
 local f = CreateFrame('frame')
 
@@ -58,7 +42,7 @@ end
 -- Cache relevent recipe info for lookups
 local function CacheRecipes()
 	wipe(RecipeCache)
-	for ingredientItemID, recipes in pairs(IngredientList) do
+	for ingredientItemID, recipes in pairs(ns.recipes) do
 		for _, recipeID in pairs(recipes) do
 			RecipeCache[recipeID] = C_TradeSkillUI.GetRecipeInfo(recipeID)
 		end
@@ -103,7 +87,7 @@ local function DecorateNomi()
 					HookedButtons[button] = i
 				end
 
-				local ingredient, recipeList = LocalizedIngredientList[ingredientItemID], IngredientList[ingredientItemID]
+				local ingredient, recipeList = LocalizedIngredientList[ingredientItemID], ns.recipes[ingredientItemID]
 				if ingredient and recipeList then -- and recipes then
 					local unlearned = 0
 					local canLearn = 0
@@ -188,12 +172,12 @@ f:SetScript('OnEvent', function(self, event, ...)
 		C_TradeSkillUI.CloseTradeSkill()
 	elseif event == 'GET_ITEM_INFO_RECEIVED' then
 		local itemID = ...
-		if IngredientList[itemID] then
+		if ns.recipes[itemID] then
 			local itemName, itemLink = GetItemInfo(itemID)
 			LocalizedIngredientList[itemID] = {itemName, itemLink}
 		end
 	elseif event == 'PLAYER_LOGIN' then
-		for itemID, recipes in pairs(IngredientList) do
+		for itemID, recipes in pairs(ns.recipes) do
 			local itemName, itemLink = GetItemInfo(itemID)
 			if itemName and itemLink then
 				LocalizedIngredientList[itemID] = {itemName, itemLink}
