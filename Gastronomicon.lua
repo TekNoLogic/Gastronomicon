@@ -2,12 +2,6 @@
 local myname, ns = ...
 
 
---[[
-	Operating under the following assumptions about how recipes are discovered:
-	1) You must know the base rank of a recipe to receive higher ranked versions of it
-	2) You must already know all recipes which are reagents for the recipe (unconfirmed)
---]]
-
 local HookedButtons = {} -- [button] = true
 
 local IngredientList = { -- In the order they appear in Nomi's dialog options
@@ -24,22 +18,6 @@ local IngredientList = { -- In the order they appear in Nomi's dialog options
 	[124112] = {201551,201538,201531,201563,201558,201507,201536,201556,201543,201511,201516}, -- Black Barracuda
 	[133680] = {201562,201684,201542,201516,201683,201685,201543,201515,201563}, -- Slabs of Bacon
 	[133607] = {201539,201557,201537,201559,201508}, -- Silver Mackerel
-}
-
-local IngredientOrder = {
-	124117, -- Lean Shank
-	124121, -- Wildfowl Egg
-	124119, -- Big Gamy Ribs
-	124118, -- Fatty Bearsteak
-	124120, -- Leyblood
-	124107, -- Cursed Queenfish
-	124108, -- Mossgill Perch
-	124109, -- Highmountain Salmon
-	124110, -- Stormray
-	124111, -- Runescale Koi
-	124112, -- Black Barracuda
-	133680, -- Slabs of Bacon
-	133607, -- Silver Mackerel
 }
 
 local LocalizedIngredientList = {} -- [itemID] = {itemName, itemLink}
@@ -96,8 +74,8 @@ local IsNomi = false -- Are we currently interacting with Nomi?
 local function DecorateNomi()
 	wipe(TooltipInfo)
 	local i = 0
-	for j = 1, #IngredientOrder do
-		local ingredientItemID = IngredientOrder[j]
+	for j = 1, #ns.ingredient_order do
+		local ingredientItemID = ns.ingredient_order[j]
 		local count = GetItemCount(ingredientItemID, true) or 0
 		local _, _, _, _, ingredientIcon = GetItemInfoInstant(ingredientItemID)
 		if count >= 5 then -- we have enough of an ingredient for nomi to display it
