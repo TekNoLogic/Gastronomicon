@@ -1,0 +1,7 @@
+## Interface: 70000
+
+## Title: Gastronomicon
+## Notes: STOP BURNING FOOD YOU FAT FUCK
+## Author: Tekkub Stoutwrithe
+
+Gastronomicon.lua
