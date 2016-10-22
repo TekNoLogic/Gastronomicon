@@ -22,6 +22,11 @@ function ns.GetRecipeTooltipLine(recipe_id)
 	if not ns.GetRecipeName(recipe_id) then return end
 	if ns.GetRecipeLearned(recipe_id) then return end
 
+	local previous_id = ns.GetRecipePreviousRecipeID(recipe_id)
+	if previous_id then
+		if not ns.GetRecipeLearned(previous_id) then return end
+	end
+
 	local str = AvailableToDiscover(recipe_id) and AVAILABLE or UNAVAILABLE
 	local rank = ns.GetRecipeRank(recipe_id)
 	local icon = ns.GetRecipeIcon(recipe_id)
