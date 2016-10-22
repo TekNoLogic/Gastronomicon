@@ -11,8 +11,10 @@ data\recipies.lua
 data\requisites.lua
 
 models\recipe.lua
+models\tooltip.lua
 
 services\legion_category.lua
 services\recipe_cache.lua
+services\recipe_tooltip_line.lua
 
 Gastronomicon.lua

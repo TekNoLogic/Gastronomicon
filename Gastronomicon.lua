@@ -4,20 +4,17 @@ local myname, ns = ...
 
 local HookedButtons = {} -- [button] = true
 local LocalizedIngredientList = {} -- [itemID] = {itemName, itemLink}
-local TooltipInfo = {} -- [button] = {[i] = 'recipe name?'}
-
+local button_item_ids = {}
 
 local f = CreateFrame('frame')
 
 
 local IsNomi = false -- Are we currently interacting with Nomi?
 local function DecorateNomi()
-	wipe(TooltipInfo)
 	local i = 0
-	for j = 1, #ns.ingredient_order do
-		local ingredientItemID = ns.ingredient_order[j]
-		local count = GetItemCount(ingredientItemID, true) or 0
-		local _, _, _, _, ingredientIcon = GetItemInfoInstant(ingredientItemID)
+	for _,item_id in ipairs(ns.ingredient_order) do
+		local count = GetItemCount(item_id, true) or 0
+		local _, _, _, _, ingredientIcon = GetItemInfoInstant(item_id)
 		if count >= 5 then -- we have enough of an ingredient for nomi to display it
 			i = i + 1
 			local buttonName = 'GossipTitleButton' .. i
@@ -25,23 +22,17 @@ local function DecorateNomi()
 			local buttonIcon = _G[buttonName .. 'GossipIcon'] -- check that the icon is for a work order, otherwise we might overwrite a quest button or something
 			if button and button:IsShown() and buttonIcon and buttonIcon:GetTexture():lower() == 'interface\\gossipframe\\workordergossipicon' then
 				if not HookedButtons[button] then
-					button:HookScript('OnEnter', function(self)
+					button:HookScript("OnEnter", function(self)
 						if not IsNomi then return end
-						if TooltipInfo[self] and #TooltipInfo[self] > 0 then
-							GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-							GameTooltip:AddLine('Potential Recipes')
-							table.sort(TooltipInfo[self])
-							for _, name in pairs(TooltipInfo[self]) do
-								GameTooltip:AddLine(name)
-							end
-							GameTooltip:Show()
-						end
+						ns.ShowTooltip(self, button_item_ids[self])
 					end)
 					button:HookScript("OnLeave", GameTooltip_Hide)
 					HookedButtons[button] = i
 				end
 
-				local ingredient, recipeList = LocalizedIngredientList[ingredientItemID], ns.recipes[ingredientItemID]
+				button_item_ids[button] = item_id
+
+				local ingredient, recipeList = LocalizedIngredientList[item_id], ns.recipes[item_id]
 				if ingredient and recipeList then -- and recipes then
 					local unlearned = 0
 					local canLearn = 0
@@ -56,28 +47,12 @@ local function DecorateNomi()
 									if ns.GetRecipeName(requisiteID) and not ns.GetRecipeLearned(requisiteID) then
 										-- we're missing one of the requisites, can't make this
 										learnable = false
-										if not TooltipInfo[button] then
-											TooltipInfo[button] = {}
-										end
-										local rank = ns.GetRecipeRank(recipeID)
-										local icon = ns.GetRecipeIcon(recipeID)
-										local name = ns.GetRecipeName(recipeID)
-										local fname = format('|T%d:16|t |cffcccccc%s %d', icon, name, rank)
-										tinsert(TooltipInfo[button], fname)
 										break
 									end
 								end
 							end
 							if learnable then
 								canLearn = canLearn + 1
-								if not TooltipInfo[button] then
-									TooltipInfo[button] = {}
-								end
-								local rank = ns.GetRecipeRank(recipeID)
-								local icon = ns.GetRecipeIcon(recipeID)
-								local name = ns.GetRecipeName(recipeID)
-								local fname = format("|T%d:16|t %s %d", icon, name, rank)
-								tinsert(TooltipInfo[button], fname)
 							end
 						end
 					end
