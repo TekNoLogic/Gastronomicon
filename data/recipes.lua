@@ -2,7 +2,7 @@
 local myname, ns = ...
 
 
--- Lists of which recipies can be learned from a base ingredient
+-- Lists of which recipes can be learned from a base ingredient
 ns.recipes = {
 	[124117] = { -- Lean Shank
 		201506,
