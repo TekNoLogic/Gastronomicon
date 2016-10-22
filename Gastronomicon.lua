@@ -92,14 +92,14 @@ local function DecorateNomi()
 					local ingredientName, ingredientLink = ingredient[1], ingredient[2]
 					for _, recipeID in pairs(recipeList) do
 						local info = RecipeCache[recipeID]
-						if info and not info.learned then
+						if info and not ns.GetRecipeLearned(recipeID) then
 							unlearned = unlearned + 1
 							local learnable = true
 							if ns.requisites[recipeID] then
 								for _, requisiteID in pairs(ns.requisites[recipeID]) do
 									-- we must know all requisites to be able to receive this item
 									local requisiteInfo = RecipeCache[requisiteID] -- C_TradeSkillUI.GetRecipeInfo(requisiteID)
-									if requisiteInfo and not requisiteInfo.learned then
+									if requisiteInfo and not ns.GetRecipeLearned(requisiteID) then
 										-- we're missing one of the requisites, can't make this
 										learnable = false
 										if not TooltipInfo[button] then
