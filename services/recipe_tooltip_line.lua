@@ -2,8 +2,8 @@
 local myname, ns = ...
 
 
-local   AVAILABLE = "|T%d:16|t %s %d"
-local UNAVAILABLE = "|T%d:16|t |cffcccccc%s %d"
+local   AVAILABLE = "|T%d:16|t %s (Rank %d)"
+local UNAVAILABLE = "|T%d:16|t |cffcccccc%s (Rank %d)"
 
 
 local function AvailableToDiscover(recipe_id)
