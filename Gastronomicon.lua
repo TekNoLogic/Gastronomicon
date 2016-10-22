@@ -56,16 +56,16 @@ local function DecorateNomi()
 							end
 						end
 					end
-					--buttonIcon:SetTexture(ingredientIcon)
+					buttonIcon:SetTexture(ingredientIcon)
 					if unlearned ~= 0 then
 						if canLearn ~= 0 then
-							button:SetFormattedText('|T%d:16|t %d [%s] x%d', ingredientIcon, canLearn, ingredientName, count)
+							button:SetFormattedText('%d [%s] x%d', canLearn, ingredientName, count)
 						else
 							-- button:SetText('|cff660000' .. canLearn .. ' [' .. ingredientName .. ']')
-							button:SetFormattedText('|T%d:16|t |cff660000%d [%s] x%d|r', ingredientIcon, canLearn, ingredientName, count)
+							button:SetFormattedText('|cff660000%d [%s] x%d|r', canLearn, ingredientName, count)
 						end
 					else
-						button:SetFormattedText('|cff660000No more |T%d:16|t [%s]', ingredientIcon, ingredientName)
+						button:SetFormattedText('|cff660000No more [%s]', ingredientName)
 					end
 					GossipResize(button)
 				end
