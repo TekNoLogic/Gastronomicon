@@ -43,7 +43,7 @@ function ns.GetButtonText(item_id)
 
 	if discoverable > 0 then
 		return string.format(SOME_AVAILABLE, discoverable, name, count)
-	elseif HasUndiscovered(item_id)
+	elseif HasUndiscovered(item_id) then
 		return string.format(NONE_AVAILABLE, name, count)
 	else
 		return string.format(ALL_DISCOVERED, name)
