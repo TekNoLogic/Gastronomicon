@@ -8,11 +8,6 @@ local TooltipInfo = {} -- [button] = {[i] = 'recipe name?'}
 local RecipeCache = {} -- [recipeID] = info
 
 
-local function GetRank(info)
-	return not info.nextRecipeID and 3 or info.previousRecipeID and 2 or 1
-end
-
-
 local f = CreateFrame('frame')
 
 local RegisteredFrames = {} -- Holds a list of frames that should be registered for TRADE_SKILL_SHOW after our addon is finished
@@ -92,22 +87,24 @@ local function DecorateNomi()
 					local ingredientName, ingredientLink = ingredient[1], ingredient[2]
 					for _, recipeID in pairs(recipeList) do
 						local info = RecipeCache[recipeID]
-						if info and not ns.GetRecipeLearned(recipeID) then
+						if ns.GetRecipeRank(recipeID) and not ns.GetRecipeLearned(recipeID) then
 							unlearned = unlearned + 1
 							local learnable = true
 							if ns.requisites[recipeID] then
 								for _, requisiteID in pairs(ns.requisites[recipeID]) do
 									-- we must know all requisites to be able to receive this item
 									local requisiteInfo = RecipeCache[requisiteID] -- C_TradeSkillUI.GetRecipeInfo(requisiteID)
-									if requisiteInfo and not ns.GetRecipeLearned(requisiteID) then
+									local name = ns.GetRecipeName(requisiteID)
+									if name and not ns.GetRecipeLearned(requisiteID) then
 										-- we're missing one of the requisites, can't make this
 										learnable = false
 										if not TooltipInfo[button] then
 											TooltipInfo[button] = {}
 										end
-										local rank = GetRank(info)
-										local name = format('|T%d:16|t |cffcccccc%s %d', info.icon, info.name, rank)
-										tinsert(TooltipInfo[button], name)
+										local rank = ns.GetRecipeRank(requisiteID)
+										local icon = ns.GetRecipeIcon(requisiteID)
+										local fname = format('|T%d:16|t |cffcccccc%s %d', icon, name, rank)
+										tinsert(TooltipInfo[button], fname)
 										break
 									end
 								end
@@ -117,9 +114,11 @@ local function DecorateNomi()
 								if not TooltipInfo[button] then
 									TooltipInfo[button] = {}
 								end
-								local rank = GetRank(info)
-								local name = format('|T%d:16|t %s %d', info.icon, info.name, rank)
-								tinsert(TooltipInfo[button], name)
+								local rank = ns.GetRecipeRank(recipeID)
+								local icon = ns.GetRecipeIcon(recipeID)
+								local name = ns.GetRecipeName(recipeID)
+								local fname = format("|T%d:16|t %s %d", icon, name, rank)
+								tinsert(TooltipInfo[button], fname)
 							end
 						end
 					end
@@ -150,7 +149,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 			local _, _, _, _, _, npcID = strsplit('-', guid)
 			if npcID == '101846' then -- Nomi
 				IsNomi = true
-				RequestCookingStuff(DecorateNomi)
+				DecorateNomi()
 			end
 		end
 	elseif event == 'GOSSIP_CLOSED' then

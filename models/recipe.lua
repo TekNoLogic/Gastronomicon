@@ -3,7 +3,11 @@ local myname, ns = ...
 
 
 local KEYS = {
+	icon = true,
 	learned = true,
+	name = true,
+	nextRecipeID = true,
+	previousRecipeID = true,
 }
 
 
@@ -22,4 +26,11 @@ for key in pairs(KEYS) do
 	ns["GetRecipe"..titleized] = function(recipe_id)
 		return data[key][recipe_id]
 	end
+end
+
+
+function ns.GetRecipeRank(id)
+	if not data.nextRecipeID[id] then return 3 end
+	if data.previousRecipeID[id] then return 2 end
+	return 1
 end
