@@ -13,8 +13,10 @@ data\requisites.lua
 models\recipe.lua
 models\tooltip.lua
 
+services\get_button_text.lua
+services\get_recipe_tooltip_line.lua
 services\legion_category.lua
+services\recipe_discovereability.lua
 services\recipe_cache.lua
-services\recipe_tooltip_line.lua
 
 Gastronomicon.lua

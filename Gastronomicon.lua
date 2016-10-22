@@ -3,7 +3,6 @@ local myname, ns = ...
 
 
 local HookedButtons = {} -- [button] = true
-local LocalizedIngredientList = {} -- [itemID] = {itemName, itemLink}
 local button_item_ids = {}
 
 local f = CreateFrame('frame')
@@ -32,43 +31,9 @@ local function DecorateNomi()
 
 				button_item_ids[button] = item_id
 
-				local ingredient, recipeList = LocalizedIngredientList[item_id], ns.recipes[item_id]
-				if ingredient and recipeList then -- and recipes then
-					local unlearned = 0
-					local canLearn = 0
-					local ingredientName, ingredientLink = ingredient[1], ingredient[2]
-					for _, recipeID in pairs(recipeList) do
-						if ns.GetRecipeName(recipeID) and not ns.GetRecipeLearned(recipeID) then
-							unlearned = unlearned + 1
-							local learnable = true
-							if ns.requisites[recipeID] then
-								for _, requisiteID in pairs(ns.requisites[recipeID]) do
-									-- we must know all requisites to be able to receive this item
-									if ns.GetRecipeName(requisiteID) and not ns.GetRecipeLearned(requisiteID) then
-										-- we're missing one of the requisites, can't make this
-										learnable = false
-										break
-									end
-								end
-							end
-							if learnable then
-								canLearn = canLearn + 1
-							end
-						end
-					end
-					buttonIcon:SetTexture(ingredientIcon)
-					if unlearned ~= 0 then
-						if canLearn ~= 0 then
-							button:SetFormattedText('%d [%s] x%d', canLearn, ingredientName, count)
-						else
-							-- button:SetText('|cff660000' .. canLearn .. ' [' .. ingredientName .. ']')
-							button:SetFormattedText('|cff660000%d [%s] x%d|r', canLearn, ingredientName, count)
-						end
-					else
-						button:SetFormattedText('|cff660000No more [%s]', ingredientName)
-					end
-					GossipResize(button)
-				end
+				buttonIcon:SetTexture(ingredientIcon)
+				button:SetText(ns.GetRecipeTooltipLine(recipe_id))
+				GossipResize(button)
 			else
 				break
 			end
@@ -88,22 +53,7 @@ f:SetScript('OnEvent', function(self, event, ...)
 		end
 	elseif event == 'GOSSIP_CLOSED' then
 		IsNomi = false
-	elseif event == 'GET_ITEM_INFO_RECEIVED' then
-		local itemID = ...
-		if ns.recipes[itemID] then
-			local itemName, itemLink = GetItemInfo(itemID)
-			LocalizedIngredientList[itemID] = {itemName, itemLink}
-		end
-	elseif event == 'PLAYER_LOGIN' then
-		for itemID, recipes in pairs(ns.recipes) do
-			local itemName, itemLink = GetItemInfo(itemID)
-			if itemName and itemLink then
-				LocalizedIngredientList[itemID] = {itemName, itemLink}
-			end
-		end
 	end
 end)
 f:RegisterEvent('GOSSIP_SHOW')
 f:RegisterEvent('GOSSIP_CLOSED')
-f:RegisterEvent('GET_ITEM_INFO_RECEIVED')
-f:RegisterEvent('PLAYER_LOGIN')
