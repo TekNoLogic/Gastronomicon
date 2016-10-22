@@ -81,9 +81,7 @@ local function DecorateNomi()
 							GameTooltip:Show()
 						end
 					end)
-					button:HookScript('OnLeave', function(self)
-						GameTooltip_Hide()
-					end)
+					button:HookScript("OnLeave", GameTooltip_Hide)
 					HookedButtons[button] = i
 				end
 
