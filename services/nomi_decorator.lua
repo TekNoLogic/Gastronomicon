@@ -5,8 +5,7 @@ local myname, ns = ...
 local NOMI_ID = 101846
 
 
-local listener = CreateFrame("Frame")
-listener:SetScript("OnEvent", function(self, event, ...)
+function ns.GOSSIP_SHOW()
 	local guid = UnitGUID("npc")
 	if not guid then return end
 
@@ -20,5 +19,7 @@ listener:SetScript("OnEvent", function(self, event, ...)
 			ns.UpdateButton(i, item_id)
 		end
 	end
-end)
-listener:RegisterEvent("GOSSIP_SHOW")
+end
+
+
+ns.RegisterEvent("GOSSIP_SHOW")
