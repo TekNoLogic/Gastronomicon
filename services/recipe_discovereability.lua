@@ -12,6 +12,11 @@ function ns.CanBeDiscovered(recipe_id)
 	if not ns.GetRecipeName(recipe_id) then return end
 	if ns.IsDiscovered(recipe_id) then return false end
 
+	local previous_id = ns.GetRecipePreviousRecipeID(recipe_id)
+	if previous_id then
+		if not ns.GetRecipeLearned(previous_id) then return false end
+	end
+
 	if not ns.requisites[recipe_id] then return true end
 
 	for _,requisite_id in pairs(ns.requisites[recipe_id]) do
