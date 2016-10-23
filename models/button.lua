@@ -2,13 +2,6 @@
 local myname, ns = ...
 
 
-local RED = " |c".. DIM_RED_FONT_COLOR:GenerateHexColor()
-local SOME_AVAILABLE = " %d [%s] x%d"
-local NONE_AVAILABLE = RED.. "0 [%s] x%d|r"
-local ALL_DISCOVERED = RED.. "All discovered [%s]"
-local WORK_ORDER_TEXTURE = "Interface\\GossipFrame\\workorderGossipIcon"
-
-
 local function HasUndiscovered(item_id)
 	local recipes = ns.recipes[item_id]
 	if not recipes then return false end
@@ -44,16 +37,23 @@ local function GetText(item_id)
 	local recipes = ns.recipes[item_id]
 	if not recipes then return end
 
-	local discoverable = NumDiscoverable(item_id)
 	local name = GetItemInfo(item_id)
-	local count = GetItemCount(item_id, true) or 0
-
-	if discoverable > 0 then
-		return string.format(SOME_AVAILABLE, discoverable, name, count)
-	elseif HasUndiscovered(item_id) then
-		return string.format(NONE_AVAILABLE, name, count)
+	if HasUndiscovered(item_id) then
+		local count = GetItemCount(item_id, true) or 0
+		return string.format(" %s (x%d)|r", name, count)
 	else
-		return string.format(ALL_DISCOVERED, name)
+		return " ".. name
+	end
+end
+
+
+local function GetSubtext(item_id)
+	local recipes = ns.recipes[item_id]
+	if not recipes then return end
+
+	local discoverable = NumDiscoverable(item_id)
+	if discoverable > 0 then
+		return discoverable.. " discoverable"
 	end
 end
 
@@ -69,8 +69,8 @@ function ns.UpdateButton(index, item_id)
 	local _, _, _, _, texture = GetItemInfoInstant(item_id)
 
 	button:SetText(GetText(item_id))
+	ns.SetSubtext(button, GetSubtext(item_id))
 	icon:SetTexture(texture)
-	GossipResize(button)
 
 	button_item_ids[button] = item_id
 	button:SetScript("OnEnter", OnEnter)

@@ -13,6 +13,7 @@ data\recipes.lua
 data\requisites.lua
 
 models\button.lua
+models\button_subtext.lua
 models\recipe.lua
 models\tooltip.lua
 
