@@ -79,6 +79,7 @@ end
 
 
 function ns.GOSSIP_CLOSED()
+	ns.HideSubtexts()
 	for button in pairs(button_item_ids) do
 		button:SetScript("OnEnter", nil)
 		button:SetScript("OnLeave", nil)

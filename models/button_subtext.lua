@@ -21,3 +21,8 @@ function ns.SetSubtext(button, text)
 	subtext:SetText(text)
 	subtext:Show()
 end
+
+
+function ns.HideSubtexts()
+	for subtext in pairs(subtexts) do subtext:Hide() end
+end
