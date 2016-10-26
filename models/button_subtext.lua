@@ -24,5 +24,5 @@ end
 
 
 function ns.HideSubtexts()
-	for subtext in pairs(subtexts) do subtext:Hide() end
+	for _,subtext in pairs(subtexts) do subtext:Hide() end
 end
