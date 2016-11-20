@@ -17,7 +17,9 @@ models\button_subtext.lua
 models\recipe.lua
 models\tooltip.lua
 
+services\is_nomi.lua
 services\legion_category.lua
 services\nomi_decorator.lua
+services\nomi_feeder.lua
 services\recipe_discovereability.lua
 services\recipe_cache.lua
