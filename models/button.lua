@@ -40,7 +40,8 @@ local function GetText(item_id)
 	local name = GetItemInfo(item_id)
 	if HasUndiscovered(item_id) then
 		local count = GetItemCount(item_id, true) or 0
-		return string.format(" %s (x%d)|r", name, count)
+		local in_bag = (GetItemCount(item_id) or 0) > 0 and "→" or ""
+		return string.format(" %s%s (x%d)", in_bag, name, count)
 	else
 		return " ".. name
 	end
