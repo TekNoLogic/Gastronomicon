@@ -65,6 +65,13 @@ local function OnEnter(self)
 end
 
 
+local function OnGossipClosed(self)
+	self:SetScript("OnEnter", nil)
+	self:SetScript("OnLeave", nil)
+	button_item_ids[self] = nil
+end
+
+
 function ns.UpdateButton(index, item_id)
 	local button, icon = GetButton(index)
 	local _, _, _, _, texture = GetItemInfoInstant(item_id)
@@ -76,17 +83,6 @@ function ns.UpdateButton(index, item_id)
 	button_item_ids[button] = item_id
 	button:SetScript("OnEnter", OnEnter)
 	button:SetScript("OnLeave", GameTooltip_Hide)
+
+	ns.RegisterEvent(button, "GOSSIP_CLOSED", OnGossipClosed)
 end
-
-
-function ns.GOSSIP_CLOSED()
-	ns.HideSubtexts()
-	for button in pairs(button_item_ids) do
-		button:SetScript("OnEnter", nil)
-		button:SetScript("OnLeave", nil)
-		button_item_ids[button] = nil
-	end
-end
-
-
-ns.RegisterEvent("GOSSIP_CLOSED")

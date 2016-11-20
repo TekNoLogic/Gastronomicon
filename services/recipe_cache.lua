@@ -18,6 +18,4 @@ local function CacheData()
 end
 
 
-local listener = CreateFrame("Frame")
-listener:SetScript("OnEvent", CacheData)
-listener:RegisterEvent("TRADE_SKILL_LIST_UPDATE")
+ns.RegisterEvent("TRADE_SKILL_LIST_UPDATE", CacheData)

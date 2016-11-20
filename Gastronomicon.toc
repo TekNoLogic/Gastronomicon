@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 70100
 
 ## Title: Gastronomicon
 ## Notes: STOP BURNING FOOD YOU FAT FUCK
@@ -8,9 +8,10 @@
 
 externals\events.lua
 
-data\ingredient_order.lua
 data\recipes.lua
 data\requisites.lua
+
+events\nomi_opened.lua
 
 models\button.lua
 models\button_subtext.lua

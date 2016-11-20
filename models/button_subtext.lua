@@ -12,6 +12,8 @@ local function GetSubtext(button)
 	subtext:SetPoint("RIGHT", -20, 0)
 	subtexts[button] = subtext
 
+	ns.RegisterEvent(subtext, "GOSSIP_CLOSED", subtext.Hide)
+
 	return subtext
 end
 
@@ -20,9 +22,4 @@ function ns.SetSubtext(button, text)
 	local subtext = GetSubtext(button)
 	subtext:SetText(text)
 	subtext:Show()
-end
-
-
-function ns.HideSubtexts()
-	for _,subtext in pairs(subtexts) do subtext:Hide() end
 end
