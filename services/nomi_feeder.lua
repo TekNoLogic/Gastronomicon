@@ -12,7 +12,7 @@ local function OnShipmentCrafterInfo(self)
   if GetItemCount(item_id) ~= 1 then return end
 
   C_Garrison.RequestShipmentCreation(1)
-  GarrisonCapacitiveDisplayFrameCloseButton:Click()
+  HideUIPanel(GarrisonCapacitiveDisplayFrame)
 end
 
 
