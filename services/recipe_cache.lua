@@ -18,4 +18,4 @@ local function CacheData()
 end
 
 
-ns.RegisterEvent("TRADE_SKILL_LIST_UPDATE", CacheData)
+ns.RegisterCallback("TRADE_SKILL_LIST_UPDATE", CacheData)

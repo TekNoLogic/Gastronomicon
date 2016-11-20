@@ -12,7 +12,7 @@ local function GetSubtext(button)
 	subtext:SetPoint("RIGHT", -20, 0)
 	subtexts[button] = subtext
 
-	ns.RegisterEvent(subtext, "GOSSIP_CLOSED", subtext.Hide)
+	ns.RegisterCallback(subtext, "GOSSIP_CLOSED", subtext.Hide)
 
 	return subtext
 end

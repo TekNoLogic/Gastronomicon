@@ -8,4 +8,4 @@ local function OnGossipShow()
 end
 
 
-ns.RegisterEvent("GOSSIP_SHOW", OnGossipShow)
+ns.RegisterCallback("GOSSIP_SHOW", OnGossipShow)

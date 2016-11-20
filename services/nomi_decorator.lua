@@ -30,4 +30,4 @@ local function OnNomiOpened()
 end
 
 
-ns.RegisterEvent("_NOMI_OPENED", OnNomiOpened)
+ns.RegisterCallback("_NOMI_OPENED", OnNomiOpened)

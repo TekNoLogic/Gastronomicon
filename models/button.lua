@@ -84,5 +84,5 @@ function ns.UpdateButton(index, item_id)
 	button:SetScript("OnEnter", OnEnter)
 	button:SetScript("OnLeave", GameTooltip_Hide)
 
-	ns.RegisterEvent(button, "GOSSIP_CLOSED", OnGossipClosed)
+	ns.RegisterCallback(button, "GOSSIP_CLOSED", OnGossipClosed)
 end
