@@ -12,6 +12,7 @@ local function OnShipmentCrafterInfo(self)
   if GetItemCount(item_id) ~= 1 then return end
 
   C_Garrison.RequestShipmentCreation(1)
+  PlaySound("UI_Garrison_Start_Work_Order")
   HideUIPanel(GarrisonCapacitiveDisplayFrame)
 end
 
