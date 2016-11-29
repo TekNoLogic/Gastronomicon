@@ -41,7 +41,7 @@ local function GetText(item_id)
 	local name = GetItemInfo(item_id)
 	if HasUndiscovered(item_id) then
 		local count = GetItemCount(item_id, true) or 0
-		local in_bag = (GetItemCount(item_id) or 0) > 0 and MEAT or ""
+		local in_bag = (GetItemCount(item_id) or 0) == 1 and MEAT or ""
 		return string.format(" %s%s (x%d)", in_bag, name, count)
 	else
 		return " ".. name
