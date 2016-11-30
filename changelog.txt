@@ -1,3 +1,9 @@
+### 7.1.0.2-Beta
+
+* Use an icon instead of an arrow
+* Only show the icon if you have exactly one meat in bags
+
+
 ### 7.1.0.1-Beta
 
 * and so it begins...
