@@ -9,3 +9,5 @@ So what does this addon do?  A few small things to try to make interacting with 
 * Automatically queues up one job for an ingredient on click if you have a single of that item in your bag (because he's finished burning the previous batch of that item)
 
 You need to open your cooking panel at least once after installing this addon for it to scan what recipes you have learned.
+
+![Tears ahead](tears.png)
